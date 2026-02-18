@@ -15,6 +15,9 @@ const fetch = require('node-fetch');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Define an Express Router for all API endpoints
+const apiRouter = express.Router();
+
 // Configuration
 const API_BASE_URL = process.env.API_BASE_URL || 'https://hpg-backend-6kzwb.ondigitalocean.app/api/v1';
 const API_KEY = process.env.API_KEY || 'hexai_pba1qb16rxe';
@@ -103,7 +106,7 @@ app.get('/health', (req, res) => {
 /**
  * Get API status
  */
-app.get('/api/status', (req, res) => {
+apiRouter.get('/status', (req, res) => {
     res.json({
         status: 'active',
         business: BUSINESS_NAME,
@@ -116,7 +119,7 @@ app.get('/api/status', (req, res) => {
  * Initiate a payment collection
  * POST /api/payment/initiate
  */
-app.post('/api/payment/initiate', async (req, res) => {
+apiRouter.post('/payment/initiate', async (req, res) => {
     try {
         const { 
             amount, 
@@ -278,7 +281,7 @@ app.post('/api/payment/initiate', async (req, res) => {
  * Check payment status
  * GET /api/payment/status/:reference
  */
-app.get('/api/payment/status/:reference', async (req, res) => {
+apiRouter.get('/payment/status/:reference', async (req, res) => {
     try {
         const { reference } = req.params;
 
@@ -333,7 +336,7 @@ app.get('/api/payment/status/:reference', async (req, res) => {
  * Webhook handler for payment notifications
  * POST /api/webhook
  */
-app.post('/api/webhook', async (req, res) => {
+apiRouter.post('/webhook', async (req, res) => {
     try {
         const signature = req.headers['wave-signature'] || req.headers['x-webhook-signature'];
         const payload = JSON.stringify(req.body);
@@ -443,7 +446,7 @@ function generateReference(packageType) {
  * Get available packages
  * GET /api/packages
  */
-app.get('/api/packages', (req, res) => {
+apiRouter.get('/packages', (req, res) => {
     res.json({
         status: 'success',
         data: {
@@ -487,7 +490,7 @@ app.get('/api/packages', (req, res) => {
  * Get transaction history (for admin)
  * GET /api/transactions
  */
-app.get('/api/transactions', (req, res) => {
+apiRouter.get('/transactions', (req, res) => {
     const transactionList = Array.from(transactions.entries()).map(([ref, data]) => ({
         reference: ref,
         ...data
@@ -501,6 +504,13 @@ app.get('/api/transactions', (req, res) => {
         }
     });
 });
+
+// Mount the API Router
+// We mount it at both /api and / to handle different environments:
+// 1. Local: http://localhost:3001/api/... works
+// 2. DO: https://app.com/api/... strips /api and calls service/..., which matches /...
+app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 // Start server
 app.listen(PORT, () => {
