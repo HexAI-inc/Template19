@@ -3,7 +3,7 @@ region: fra  # Frankfurt - closest to Gambia
 
 services:
   - name: payment-backend
-    source_dir: Template19/backend
+    source_dir: backend
     github:
       branch: main
       deploy_on_push: true
@@ -36,7 +36,7 @@ services:
 
 static_sites:
   - name: hotspot-frontend
-    source_dir: Template19
+    source_dir: /
     github:
       branch: main
       deploy_on_push: true
