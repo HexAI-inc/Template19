@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="2; url=$(link-redirect)">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <title>Connexion réussie - MnaSpot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="octalink-bg">
+    <div class="octalink-flex">
+        <div class="octalink-card" style="max-width: 400px; margin: 40px auto;">
+            <div class="octalink-card-header">
+                <span class="macos-dot red"></span>
+                <span class="macos-dot yellow"></span>
+                <span class="macos-dot green"></span>
+            </div>
+            <div class="octalink-logo" style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 18px;">
+                <svg viewBox="0 0 24 24" class="wifi-icon" style="width:48px; height:48px;"><path d="M12,3L2,12H5V20H11V14H13V20H19V12H22L12,3M12,7.7C14.1,7.7 15.8,9.4 15.8,11.5C15.8,13.6 14.1,15.3 12,15.3C9.9,15.3 8.2,13.6 8.2,11.5C8.2,9.4 9.9,7.7 12,7.7Z" fill="#fff"/></svg>
+                <span class="brand-name" style="font-size:2rem; font-weight:700; color:#fff; letter-spacing:1px;">MnaSpot</span>
+            </div>
+            <h2 class="octalink-title">Connexion réussie !</h2>
+            <p class="octalink-subtitle">Vous êtes maintenant connecté à Internet.</p>
+            <div class="info" style="text-align:center; margin: 18px 0 0 0; color:#bfc9d1;">
+                Redirection automatique...<br>
+                <span style="font-size:0.98rem;">Si rien ne se passe, cliquez <a href="$(link-redirect)" style="color:#4eaaff; text-decoration:underline;">ici</a></span>
+            </div>
+        </div>
+    </div>
+    <script src="conf.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    <script type="text/javascript">
+    //set theme
+    var bodyclass = document.getElementsByTagName("body")[0];
+    if (typeof config !== 'undefined' && config["theme"] == "dark"){
+        bodyclass.classList.add("dark");
+    }else if (typeof config !== 'undefined' && config["theme"] == "lite"){
+        bodyclass.classList.add("lite");
+    }
+    </script>
+</body>
+
+</html>

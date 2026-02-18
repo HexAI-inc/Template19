@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diagnostic Configuration - Hotspot WiFi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .debug-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        .debug-status {
+            padding: 10px;
+            border-radius: 8px;
+            margin: 5px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .debug-success { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+        .debug-error { background: rgba(244, 67, 54, 0.2); color: #f44336; }
+        .debug-warning { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+        .debug-info { background: rgba(33, 150, 243, 0.2); color: #2196F3; }
+        .debug-button {
+            background: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .debug-button:hover {
+            background: var(--secondary-color);
+        }
+        .config-display {
+            background: rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 11px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <!-- Logo WiFi + mnaSpot -->
+                <div class="brand-logo">
+                    <div class="wifi-logo">
+                        <svg viewBox="0 0 24 24" class="wifi-icon">
+                            <path d="M12,3L2,12H5V20H11V14H13V20H19V12H22L12,3M12,7.7C14.1,7.7 15.8,9.4 15.8,11.5C15.8,13.6 14.1,15.3 12,15.3C9.9,15.3 8.2,13.6 8.2,11.5C8.2,9.4 9.9,7.7 12,7.7Z" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <h1 class="brand-name">mnaSpot</h1>
+                </div>
+
+                <!-- Panel de diagnostic -->
+                <div class="debug-panel">
+                    <h2 style="color: var(--text-light); text-align: center; margin-bottom: 20px;">
+                        🔍 Diagnostic de Configuration
+                    </h2>
+                    
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <button class="debug-button" onclick="runDiagnostic()">Lancer le Diagnostic</button>
+                        <button class="debug-button" onclick="clearLogs()">Effacer les Logs</button>
+                        <button class="debug-button" onclick="testConfig()">Tester la Config</button>
+                    </div>
+
+                    <div id="debugLogs" class="config-display">
+                        Cliquez sur "Lancer le Diagnostic" pour commencer...
+                    </div>
+                </div>
+
+                <!-- Test de la page -->
+                <div class="debug-panel">
+                    <h3 style="color: var(--text-light); margin-bottom: 15px;">Test de la Page</h3>
+                    
+                    <!-- Slider de test -->
+                    <div class="slider-container">
+                        <div class="slider" id="slider">
+                            <!-- Les slides seront générés dynamiquement -->
+                        </div>
+                        <div class="slider-dots" id="sliderDots">
+                            <!-- Les points seront générés dynamiquement -->
+                        </div>
+                    </div>
+
+                    <!-- Formulaire de test -->
+                    <form style="margin-top: 20px;">
+                        <div class="info" id="loginInfo">Test du formulaire</div>
+                        
+                        <label>
+                            <img class="ico" src="img/voucher.svg" alt="Voucher" />
+                            <input type="text" id="loginInput" placeholder="Test input" />
+                        </label>
+
+                        <input type="submit" id="loginButton" value="Test Button" />
+                    </form>
+
+                    <!-- Cartes de tarifs de test -->
+                    <div class="tariffs-container">
+                        <h2 class="tariffs-title">Test Tarifs</h2>
+                        <!-- Les cartes seront générées dynamiquement -->
+                    </div>
+
+                    <!-- Navigation de test -->
+                    <nav class="bottom-navbar" style="position: relative; margin-top: 20px;">
+                        <!-- La navigation sera générée dynamiquement -->
+                    </nav>
+                </div>
+
+                <!-- Affichage de la configuration -->
+                <div class="debug-panel">
+                    <h3 style="color: var(--text-light); margin-bottom: 15px;">Configuration Actuelle</h3>
+                    <div id="configDisplay" class="config-display">
+                        Chargement de la configuration...
+                    </div>
+                </div>
+
+                <p class="info bt">Diagnostic - Propulsé par MNA</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour ajouter des logs
+        function addLog(message, type = 'info') {
+            const logsDiv = document.getElementById('debugLogs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.createElement('div');
+            logElement.className = `debug-status debug-${type}`;
+            logElement.textContent = `[${timestamp}] ${message}`;
+            logsDiv.appendChild(logElement);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+
+        // Fonction pour effacer les logs
+        function clearLogs() {
+            document.getElementById('debugLogs').innerHTML = '';
+            addLog('Logs effacés', 'info');
+        }
+
+        // Fonction pour lancer le diagnostic
+        async function runDiagnostic() {
+            addLog('🚀 Démarrage du diagnostic complet...', 'info');
+            
+            // Vérifier la configuration
+            try {
+                const response = await fetch('config-simple.json');
+                if (response.ok) {
+                    const config = await response.json();
+                    addLog('✅ Configuration chargée avec succès', 'success');
+                    displayConfig(config);
+                } else {
+                    addLog(`❌ Erreur HTTP: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                addLog(`❌ Erreur de chargement: ${error.message}`, 'error');
+            }
+
+            // Vérifier les éléments DOM
+            const elements = {
+                'brand-name': document.querySelector('.brand-name'),
+                'slider': document.getElementById('slider'),
+                'sliderDots': document.getElementById('sliderDots'),
+                'infologin': document.getElementById('infologin'),
+                'tariffs-container': document.querySelector('.tariffs-container'),
+                'bottom-navbar': document.querySelector('.bottom-navbar')
+            };
+
+            Object.entries(elements).forEach(([name, element]) => {
+                if (element) {
+                    addLog(`✅ ${name}: trouvé`, 'success');
+                } else {
+                    addLog(`❌ ${name}: non trouvé`, 'error');
+                }
+            });
+
+            // Vérifier les variables CSS
+            const styles = getComputedStyle(document.body);
+            const cssVars = ['--primary-color', '--text-color', '--background'];
+            
+            cssVars.forEach(varName => {
+                const value = styles.getPropertyValue(varName);
+                if (value && value.trim() !== '') {
+                    addLog(`✅ ${varName}: défini`, 'success');
+                } else {
+                    addLog(`⚠️ ${varName}: non défini`, 'warning');
+                }
+            });
+
+            addLog('🏁 Diagnostic terminé', 'info');
+        }
+
+        // Fonction pour afficher la configuration
+        function displayConfig(config) {
+            const configDiv = document.getElementById('configDisplay');
+            configDiv.innerHTML = `<pre>${JSON.stringify(config, null, 2)}</pre>`;
+        }
+
+        // Fonction pour tester la configuration
+        function testConfig() {
+            addLog('🧪 Test de la configuration...', 'info');
+            
+            if (window.config) {
+                addLog('✅ Configuration globale disponible', 'success');
+                addLog(`📋 Nom du site: ${config.site?.name || 'Non défini'}`, 'info');
+                addLog(`📋 Mode login: ${config.login?.mode || 'Non défini'}`, 'info');
+                addLog(`📋 Nombre de tarifs: ${config.tariffs?.length || 0}`, 'info');
+                addLog(`📋 Nombre de slides: ${config.slider?.slides?.length || 0}`, 'info');
+            } else {
+                addLog('❌ Configuration globale non disponible', 'error');
+            }
+        }
+
+        // Initialiser quand le DOM est chargé
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+            addLog('📄 Page chargée, prêt pour le diagnostic', 'info');
+        });
+    </script>
+    <script src="js/simple-config.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    <script src="js/debug-config.js"></script>
+
+</body>
+
+</html> 

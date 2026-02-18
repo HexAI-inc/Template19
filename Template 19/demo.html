@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Démo - Hotspot WiFi Moderne</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <!-- Logo WiFi + mnaSpot -->
+                <div class="brand-logo">
+                    <div class="wifi-logo">
+                        <svg viewBox="0 0 24 24" class="wifi-icon">
+                            <path d="M12,3L2,12H5V20H11V14H13V20H19V12H22L12,3M12,7.7C14.1,7.7 15.8,9.4 15.8,11.5C15.8,13.6 14.1,15.3 12,15.3C9.9,15.3 8.2,13.6 8.2,11.5C8.2,9.4 9.9,7.7 12,7.7Z" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <h1 class="brand-name">mnaSpot</h1>
+                </div>
+
+                <!-- Slider d'images -->
+                <div class="slider-container">
+                    <div class="slider" id="slider">
+                        <div class="slide slide-1" style="background-image: url('./img/1.jpg');">WiFi Rapide & Sécurisé</div>
+                        <div class="slide slide-2" style="background-image: url('./img/2.jpg');">Connexion Haute Vitesse</div>
+                        <div class="slide slide-3" style="background-image: url('./img/3.jpg');">Support Technique 24/7</div>
+                    </div>
+                    <div class="slider-dots" id="sliderDots">
+                        <div class="dot active" onclick="goToSlide(0)"></div>
+                        <div class="dot" onclick="goToSlide(1)"></div>
+                        <div class="dot" onclick="goToSlide(2)"></div>
+                    </div>
+                </div>
+
+                <!-- Mode de connexion -->
+                <div class="mode">
+                    <button id="voucher" class="mode-btn mode-btn-active" onclick="voucher()">Voucher</button>
+                    <button id="member" class="mode-btn" onclick="member()">Membre</button>
+                </div>
+
+                <!-- Formulaire de connexion -->
+                <form autocomplete="off" name="login" onsubmit="return handleDemoLogin(event)">
+                    <div class="info" id="infologin">Entrez votre code voucher pour vous connecter</div>
+                    
+                    <div class="info">
+                        <br />🔄 <strong>Mode Démo</strong> - Cette page simule le comportement du hotspot WiFi
+                    </div>
+
+                    <label>
+                        <img id="ico1" class="ico" src="img/voucher.svg" alt="Voucher" />
+                        <input name="username" type="text" placeholder="Code Voucher" />
+                    </label>
+
+                    <label>
+                        <img id="ico2" class="ico" src="img/password.svg" alt="Mot de passe" />
+                        <input name="password" type="hidden" placeholder="Mot de passe" />
+                    </label>
+
+                    <input type="submit" value="Se Connecter (Démo)" />
+                </form>
+
+                <!-- Cartes de tarifs -->
+                <div class="tariffs-container">
+                    <h2 class="tariffs-title">Nos Tarifs WiFi</h2>
+                    
+                    <div class="tariff-card">
+                        <div class="tariff-header">
+                            <div class="tariff-name">1 Heure</div>
+                            <div class="tariff-price">2€</div>
+                        </div>
+                        <ul class="tariff-features">
+                            <li>Connexion haute vitesse</li>
+                            <li>Support technique inclus</li>
+                            <li>Accès illimité</li>
+                        </ul>
+                        <button class="buy-btn" onclick="buyTariff('1h', 2)">Acheter</button>
+                    </div>
+
+                    <div class="tariff-card">
+                        <div class="tariff-header">
+                            <div class="tariff-name">1 Jour</div>
+                            <div class="tariff-price">8€</div>
+                        </div>
+                        <ul class="tariff-features">
+                            <li>Connexion haute vitesse</li>
+                            <li>Support technique inclus</li>
+                            <li>Accès illimité 24h</li>
+                            <li>Économisez 40%</li>
+                        </ul>
+                        <button class="buy-btn" onclick="buyTariff('1d', 8)">Acheter</button>
+                    </div>
+
+                    <div class="tariff-card">
+                        <div class="tariff-header">
+                            <div class="tariff-name">1 Semaine</div>
+                            <div class="tariff-price">35€</div>
+                        </div>
+                        <ul class="tariff-features">
+                            <li>Connexion haute vitesse</li>
+                            <li>Support technique prioritaire</li>
+                            <li>Accès illimité 7 jours</li>
+                            <li>Économisez 60%</li>
+                        </ul>
+                        <button class="buy-btn" onclick="buyTariff('1w', 35)">Acheter</button>
+                    </div>
+                </div>
+
+                <p class="info bt">Propulsé par MikroTik RouterOS - Mode Démonstration</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar du bas -->
+    <nav class="bottom-navbar">
+        <a href="#" class="nav-item active" onclick="showSection('qr')">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path d="M3,3h6v6h-6z M15,3h6v6h-6z M3,15h6v6h-6z M16,16h2v2h-2z M19,16h2v2h-2z M16,19h2v2h-2z M19,19h2v2h-2z M22,16h2v2h-2z M22,19h2v2h-2z"/>
+            </svg>
+            <span class="nav-text">QR Code</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showSection('services')">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path d="M12,2l3.09,6.26L22,9.27l-5,4.87L18.18,22L12,18.27L5.82,22L7,14.14L2,9.27L8.91,8.26L12,2z"/>
+            </svg>
+            <span class="nav-text">Services</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showSection('tariffs')">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM13,17h-2v-6h2v6zM13,9h-2L11,7h2v2z"/>
+            </svg>
+            <span class="nav-text">Tarifs</span>
+        </a>
+    </nav>
+
+    <script src="conf.js"></script>
+    <script>
+        // Configuration pour la démo
+        var config = {
+            voucherCode: 'Entrez votre code voucher pour vous connecter',
+            loginText: 'Utilisez votre nom d\'utilisateur',
+            setCase: 'lower',
+            theme: 'modern'
+        };
+
+        // Variables globales
+        var hostname = window.location.hostname;
+        document.title = 'Démo - Hotspot WiFi Moderne';
+        var infologin = document.getElementById('infologin');
+        infologin.innerHTML = config.voucherCode;
+        
+        var username = document.login.username;
+        var password = document.login.password;
+        var modevoucher = document.getElementById('voucher');
+        var modemember = document.getElementById('member');
+
+        // Fonction pour définir le mot de passe
+        function setpass() {
+            if (config.setCase === 'lower') {
+                username.value = username.value.toLowerCase();
+                password.value = username.value.toUpperCase();
+            } else if (config.setCase === 'upper') {
+                username.value = username.value.toUpperCase();
+                password.value = username.value.toLowerCase();
+            } else if (config.setCase === 'none') {
+                username.value = username.value;
+                password.value = username.value;
+            }
+        }
+
+        // Fonction pour définir le casse
+        function setuplowmem() {
+            if (config.setCase === 'lower') {
+                username.value = username.value.toLowerCase();
+            } else if (config.setCase === 'upper') {
+                username.value = username.value.toUpperCase();
+            }
+        }
+
+        // Mode Voucher
+        function voucher() {
+            username.focus();
+            username.onblur = setpass;
+            username.placeholder = config.voucherCode;
+            password.style.display = 'none';
+            infologin.innerHTML = config.voucherCode;
+            document.getElementById('ico1').src = 'img/voucher.svg';
+            document.getElementById('ico2').style.display = 'none';
+            modevoucher.classList.add('mode-btn-active');
+            modemember.classList.remove('mode-btn-active');
+            localStorage.setItem('mode', 'voucher');
+        }
+
+        // Mode Membre
+        function member() {
+            username.focus();
+            username.onblur = setuplowmem;
+            username.placeholder = 'Nom d\'utilisateur';
+            password.style.display = 'block';
+            password.type = 'password';
+            infologin.innerHTML = config.loginText;
+            document.getElementById('ico1').src = 'img/user.svg';
+            document.getElementById('ico2').style.display = 'block';
+            modevoucher.classList.remove('mode-btn-active');
+            modemember.classList.add('mode-btn-active');
+            localStorage.setItem('mode', 'member');
+        }
+
+        // Gestion de la connexion en mode démo
+        function handleDemoLogin(event) {
+            event.preventDefault();
+            
+            const voucherCode = username.value.trim();
+            const memberPassword = password.value.trim();
+            
+            if (localStorage.getItem('mode') === 'member') {
+                if (!voucherCode || !memberPassword) {
+                    alert('Veuillez remplir tous les champs');
+                    return false;
+                }
+                alert(`Mode Démo - Connexion Membre\nNom d'utilisateur: ${voucherCode}\nMot de passe: ${memberPassword}\n\nEn mode réel, cela se connecterait au serveur MikroTik.`);
+            } else {
+                if (!voucherCode) {
+                    alert('Veuillez entrer un code voucher');
+                    return false;
+                }
+                alert(`Mode Démo - Connexion Voucher\nCode: ${voucherCode}\n\nEn mode réel, cela se connecterait au serveur MikroTik.`);
+            }
+            
+            return false;
+        }
+
+        // Initialisation
+        username.placeholder = config.voucherCode;
+        voucher();
+
+        // Slider automatique
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            const slider = document.getElementById('slider');
+            slider.style.transform = `translateX(-${index * 100}%)`;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+        }
+
+        // Auto-slide toutes les 3 secondes
+        setInterval(nextSlide, 3000);
+
+        // Préchargement des images pour éviter les problèmes de chargement
+        function preloadImages() {
+            const images = ['img/1.jpg', 'img/2.jpg', 'img/3.jpg'];
+            images.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        }
+
+        // Précharger les images au chargement de la page
+        preloadImages();
+
+        // Vérification du chargement des images
+        function checkImages() {
+            const images = ['img/1.jpg', 'img/2.jpg', 'img/3.jpg'];
+            images.forEach((src, index) => {
+                const img = new Image();
+                img.onload = function() {
+                    console.log(`Image ${index + 1} chargée avec succès: ${src}`);
+                };
+                img.onerror = function() {
+                    console.error(`Erreur de chargement de l'image ${index + 1}: ${src}`);
+                    // Fallback vers une couleur de fond
+                    const slide = document.querySelector(`.slide-${index + 1}`);
+                    if (slide) {
+                        slide.style.backgroundImage = `linear-gradient(135deg, #667eea, #764ba2)`;
+                    }
+                };
+                img.src = src;
+            });
+        }
+
+        // Vérifier les images au chargement
+        checkImages();
+
+        // Fonction pour définir les images via JavaScript
+        function setSliderImages() {
+            const slides = [
+                { element: document.querySelector('.slide-1'), image: 'img/1.jpg' },
+                { element: document.querySelector('.slide-2'), image: 'img/2.jpg' },
+                { element: document.querySelector('.slide-3'), image: 'img/3.jpg' }
+            ];
+
+            slides.forEach((slide, index) => {
+                if (slide.element) {
+                    // Essayer plusieurs chemins
+                    const paths = [
+                        slide.image,
+                        './' + slide.image,
+                        '/' + slide.image,
+                        '../' + slide.image
+                    ];
+
+                    function tryImage(pathIndex) {
+                        if (pathIndex >= paths.length) {
+                            console.error(`Impossible de charger l'image ${index + 1}`);
+                            slide.element.style.backgroundImage = 'linear-gradient(135deg, #667eea, #764ba2)';
+                            return;
+                        }
+
+                        const img = new Image();
+                        img.onload = function() {
+                            console.log(`Image ${index + 1} chargée: ${paths[pathIndex]}`);
+                            slide.element.style.backgroundImage = `url('${paths[pathIndex]}')`;
+                        };
+                        img.onerror = function() {
+                            console.warn(`Échec du chargement de l'image ${index + 1} avec le chemin: ${paths[pathIndex]}`);
+                            tryImage(pathIndex + 1);
+                        };
+                        img.src = paths[pathIndex];
+                    }
+
+                    tryImage(0);
+                }
+            });
+        }
+
+        // Définir les images au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            setSliderImages();
+        });
+
+        // Fonction d'achat de tarif
+        function buyTariff(type, price) {
+            alert(`Mode Démo - Achat du tarif ${type} pour ${price}€\n\nEn mode réel, cela redirigerait vers le système de paiement.`);
+        }
+
+        // Navigation entre sections
+        function showSection(section) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.nav-item').classList.add('active');
+
+            switch(section) {
+                case 'qr':
+                    alert('Mode Démo - Affichage du QR Code\n\nEn mode réel, cela afficherait le QR Code pour connexion rapide.');
+                    break;
+                case 'services':
+                    // Redirection vers la page services
+                    window.location.href = 'services.html';
+                    break;
+                case 'tariffs':
+                    document.querySelector('.tariffs-container').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    break;
+            }
+        }
+
+        // Animation d'entrée
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+
+</body>
+
+</html> 

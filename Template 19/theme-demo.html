@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Démonstration Thème - Hotspot WiFi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <!-- Logo WiFi + mnaSpot -->
+                <div class="brand-logo">
+                    <div class="wifi-logo">
+                        <svg viewBox="0 0 24 24" class="wifi-icon">
+                            <path d="M12,3L2,12H5V20H11V14H13V20H19V12H22L12,3M12,7.7C14.1,7.7 15.8,9.4 15.8,11.5C15.8,13.6 14.1,15.3 12,15.3C9.9,15.3 8.2,13.6 8.2,11.5C8.2,9.4 9.9,7.7 12,7.7Z" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <h1 class="brand-name">mnaSpot</h1>
+                </div>
+
+                <!-- Section de démonstration -->
+                <div class="demo-section">
+                    <h2 style="color: var(--text-light); text-align: center; margin-bottom: 30px; font-size: 24px;">
+                        Démonstration du Système de Thème
+                    </h2>
+                    
+                    <div class="info" style="text-align: center; margin-bottom: 30px;">
+                        Cliquez sur le bouton de thème (icône soleil/lune) en haut à droite du logo pour basculer entre le mode clair et sombre.
+                    </div>
+
+                    <!-- Cartes de démonstration -->
+                    <div class="tariff-card">
+                        <div class="tariff-header">
+                            <div class="tariff-name">Mode Clair</div>
+                            <div class="tariff-price">☀️</div>
+                        </div>
+                        <ul class="tariff-features">
+                            <li>Arrière-plan bleu MikroTik</li>
+                            <li>Texte sombre sur fond clair</li>
+                            <li>Cartes semi-transparentes</li>
+                            <li>Idéal pour la journée</li>
+                        </ul>
+                    </div>
+
+                    <div class="tariff-card">
+                        <div class="tariff-header">
+                            <div class="tariff-name">Mode Sombre</div>
+                            <div class="tariff-price">🌙</div>
+                        </div>
+                        <ul class="tariff-features">
+                            <li>Arrière-plan sombre</li>
+                            <li>Texte clair sur fond sombre</li>
+                            <li>Cartes plus discrètes</li>
+                            <li>Idéal pour la nuit</li>
+                        </ul>
+                    </div>
+
+                    <!-- Formulaire de test -->
+                    <form style="margin-top: 30px;">
+                        <div class="info">Testez les champs de saisie</div>
+                        
+                        <label>
+                            <img class="ico" src="img/user.svg" alt="Utilisateur" />
+                            <input type="text" placeholder="Nom d'utilisateur" />
+                        </label>
+
+                        <label>
+                            <img class="ico" src="img/password.svg" alt="Mot de passe" />
+                            <input type="password" placeholder="Mot de passe" />
+                        </label>
+
+                        <input type="submit" value="Tester la Connexion" />
+                    </form>
+
+                    <!-- Slider de test -->
+                    <div class="slider-container" style="margin-top: 30px;">
+                        <div class="slider" id="slider">
+                            <div class="slide slide-1" style="background-image: url('./img/1.jpg');">Mode Clair</div>
+                            <div class="slide slide-2" style="background-image: url('./img/2.jpg');">Mode Sombre</div>
+                            <div class="slide slide-3" style="background-image: url('./img/3.jpg');">Adaptatif</div>
+                        </div>
+                        <div class="slider-dots" id="sliderDots">
+                            <div class="dot active" onclick="goToSlide(0)"></div>
+                            <div class="dot" onclick="goToSlide(1)"></div>
+                            <div class="dot" onclick="goToSlide(2)"></div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation de test -->
+                    <nav class="bottom-navbar" style="position: relative; margin-top: 30px;">
+                        <a href="#" class="nav-item">
+                            <svg class="nav-icon" viewBox="0 0 24 24">
+                                <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6M12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8Z"/>
+                            </svg>
+                            <span class="nav-text">QR Code</span>
+                        </a>
+                        <a href="#" class="nav-item active">
+                            <svg class="nav-icon" viewBox="0 0 24 24">
+                                <path d="M12,2l3.09,6.26L22,9.27l-5,4.87L18.18,22L12,18.27L5.82,22L7,14.14L2,9.27L8.91,8.26L12,2z"/>
+                            </svg>
+                            <span class="nav-text">Services</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <svg class="nav-icon" viewBox="0 0 24 24">
+                                <path d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM13,17h-2v-6h2v6zM13,9h-2L11,7h2v2z"/>
+                            </svg>
+                            <span class="nav-text">Tarifs</span>
+                        </a>
+                    </nav>
+                </div>
+
+                <p class="info bt">Propulsé par MikroTik RouterOS</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Slider simple pour la démonstration
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+        }
+
+        function updateSlider() {
+            const slider = document.getElementById('slider');
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Mettre à jour les points
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        // Auto-slide
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+        }, 3000);
+
+        // Animation d'entrée
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+    <script src="js/theme-toggle.js"></script>
+
+</body>
+
+</html> 

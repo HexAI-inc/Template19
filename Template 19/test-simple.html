@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Configuration Simplifiée - Hotspot WiFi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <!-- Logo WiFi + mnaSpot -->
+                <div class="brand-logo">
+                    <div class="wifi-logo">
+                        <svg viewBox="0 0 24 24" class="wifi-icon">
+                            <path d="M12,3L2,12H5V20H11V14H13V20H19V12H22L12,3M12,7.7C14.1,7.7 15.8,9.4 15.8,11.5C15.8,13.6 14.1,15.3 12,15.3C9.9,15.3 8.2,13.6 8.2,11.5C8.2,9.4 9.9,7.7 12,7.7Z" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <h1 class="brand-name">mnaSpot</h1>
+                </div>
+
+                <!-- Section de test -->
+                <div class="test-section">
+                    <h2 style="color: var(--text-light); text-align: center; margin-bottom: 30px; font-size: 24px;">
+                        Test Configuration Simplifiée
+                    </h2>
+                    
+                    <div class="info" style="text-align: center; margin-bottom: 30px;">
+                        Cette page teste le nouveau système de configuration simplifié.
+                        <br>Modifiez le fichier <code>config-simple.json</code> et rechargez pour voir les changements.
+                    </div>
+
+                    <!-- Statut de la configuration -->
+                    <div class="tariff-card">
+                        <div class="tariff-header">
+                            <div class="tariff-name">Statut Configuration</div>
+                            <div class="tariff-price" id="configStatus">Chargement...</div>
+                        </div>
+                        <ul class="tariff-features">
+                            <li id="configName">Nom: Chargement...</li>
+                            <li id="configTitle">Titre: Chargement...</li>
+                            <li id="configFooter">Footer: Chargement...</li>
+                            <li id="configLogin">Login: Chargement...</li>
+                        </ul>
+                    </div>
+
+                    <!-- Slider de test -->
+                    <div class="slider-container">
+                        <div class="slider" id="slider">
+                            <!-- Les slides seront générés dynamiquement -->
+                        </div>
+                        <div class="slider-dots" id="sliderDots">
+                            <!-- Les points seront générés dynamiquement -->
+                        </div>
+                    </div>
+
+                    <!-- Formulaire de test -->
+                    <form style="margin-top: 30px;">
+                        <div class="info" id="loginInfo">Chargement...</div>
+                        
+                        <label>
+                            <img class="ico" src="img/voucher.svg" alt="Voucher" />
+                            <input type="text" id="loginInput" placeholder="Chargement..." />
+                        </label>
+
+                        <input type="submit" id="loginButton" value="Chargement..." />
+                    </form>
+
+                    <!-- Cartes de tarifs de test -->
+                    <div class="tariffs-container">
+                        <h2 class="tariffs-title">Tarifs de Test</h2>
+                        <!-- Les cartes seront générées dynamiquement -->
+                    </div>
+
+                    <!-- Navigation de test -->
+                    <nav class="bottom-navbar" style="position: relative; margin-top: 30px;">
+                        <!-- La navigation sera générée dynamiquement -->
+                    </nav>
+                </div>
+
+                <p class="info bt" id="footerText">Chargement...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour afficher le statut de la configuration
+        function updateConfigStatus() {
+            if (window.config) {
+                document.getElementById('configStatus').textContent = '✅ Chargée';
+                document.getElementById('configName').textContent = `Nom: ${config.site?.name || 'Non défini'}`;
+                document.getElementById('configTitle').textContent = `Titre: ${config.site?.title || 'Non défini'}`;
+                document.getElementById('configFooter').textContent = `Footer: ${config.site?.footer || 'Non défini'}`;
+                document.getElementById('configLogin').textContent = `Login: ${config.login?.mode || 'Non défini'}`;
+                
+                // Mettre à jour les éléments de test
+                document.getElementById('loginInfo').textContent = config.login?.info || 'Non défini';
+                document.getElementById('loginInput').placeholder = config.login?.placeholder || 'Non défini';
+                document.getElementById('loginButton').value = config.login?.button || 'Non défini';
+                document.getElementById('footerText').textContent = config.site?.footer || 'Non défini';
+            } else {
+                document.getElementById('configStatus').textContent = '❌ Erreur';
+            }
+        }
+
+        // Attendre que la configuration soit chargée
+        function waitForConfig() {
+            if (window.config) {
+                updateConfigStatus();
+            } else {
+                setTimeout(waitForConfig, 100);
+            }
+        }
+
+        // Initialiser quand le DOM est chargé
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+            waitForConfig();
+        });
+    </script>
+    <script src="js/simple-config.js"></script>
+    <script src="js/theme-toggle.js"></script>
+
+</body>
+
+</html> 

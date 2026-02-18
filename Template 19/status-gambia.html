@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+$(if refresh-timeout)
+<meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+$(endif)
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<title>Connection Status - HexAI WiFi</title>
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="octalink-bg">
+    <div class="octalink-flex">
+        <div>
+            <div class="octalink-card">
+                <div class="octalink-card-header">
+                    <span class="macos-dot red"></span>
+                    <span class="macos-dot yellow"></span>
+                    <span class="macos-dot green"></span>
+                </div>
+                <div class="octalink-logo" style="display: flex; align-items: center; justify-content: center; gap: 16px;">
+                    <svg viewBox="0 0 24 24" class="wifi-icon" style="width:48px; height:48px;"><path d="M12,3L2,12H5V20H11V14H13V20H19V12H22L12,3M12,7.7C14.1,7.7 15.8,9.4 15.8,11.5C15.8,13.6 14.1,15.3 12,15.3C9.9,15.3 8.2,13.6 8.2,11.5C8.2,9.4 9.9,7.7 12,7.7Z" fill="#fff"/></svg>
+                    <span class="brand-name" style="font-size:2rem; font-weight:700; color:#fff; letter-spacing:1px;">HexAI WiFi</span>
+                </div>
+                <h2 class="octalink-title">Connection Status</h2>
+                <p class="octalink-subtitle">Your WiFi session information</p>
+                
+                <div class="status-info-container">
+                    <div class="status-info-item">
+                        <span class="status-label">User</span>
+                        <span class="status-value">$(username)</span>
+                    </div>
+                    
+                    <div class="status-info-item">
+                        <span class="status-label">IP Address</span>
+                        <span class="status-value">$(ip)</span>
+                    </div>
+                    
+                    <div class="status-info-item">
+                        <span class="status-label">MAC Address</span>
+                        <span class="status-value">$(mac)</span>
+                    </div>
+                    
+                    <div class="status-info-item">
+                        <span class="status-label">Data Used</span>
+                        <span class="status-value">$(bytes-in-nice) / $(bytes-out-nice)</span>
+                    </div>
+                    
+                    $(if remain-bytes-total)
+                    <div class="status-info-item">
+                        <span class="status-label">Data Remaining</span>
+                        <span class="status-value">$(remain-bytes-total-nice)</span>
+                    </div>
+                    $(endif)
+                    
+                    $(if session-time-left)
+                    <div class="status-info-item">
+                        <span class="status-label">Connected Time</span>
+                        <span class="status-value"><span id="upt1">$(uptime)</span></span>
+                    </div>
+                    <div class="status-info-item">
+                        <span class="status-label">Time Remaining</span>
+                        <span class="status-value"><span id="stl">$(session-time-left)</span></span>
+                    </div>
+                    $(else)
+                    <div class="status-info-item">
+                        <span class="status-label">Connected Time</span>
+                        <span class="status-value"><span id="upt2">$(uptime)</span></span>
+                    </div>
+                    $(endif)
+                    
+                    $(if blocked == 'yes')
+                    <div class="status-info-item">
+                        <span class="status-label">Status</span>
+                        <span class="status-value">
+                            <a href="$(link-advert)" target="hotspot_advert" class="status-badge advert">Advertisement Required</a>
+                        </span>
+                    </div>
+                    $(elif refresh-timeout)
+                    <div class="status-info-item">
+                        <span class="status-label">Status</span>
+                        <span class="status-value">
+                            <span class="status-badge connected">Connected</span>
+                        </span>
+                    </div>
+                    <div class="status-info-item">
+                        <span class="status-label">Auto-refresh</span>
+                        <span class="status-value">$(refresh-timeout)</span>
+                    </div>
+                    $(endif)
+                </div>
+
+                $(if login-by-mac != 'yes')
+                <form action="$(link-logout)" name="logout" onSubmit="return openLogout()">
+                    <button type="submit" class="octalink-btn-primary logout-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                        </svg>
+                        Disconnect
+                    </button>
+                </form>
+                $(endif)
+                
+                <!-- Need more time? -->
+                <div class="extend-session-box">
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 12px; font-size: 0.9rem;">Need more time?</p>
+                    <a href="tarifs-gambia.html" class="octalink-btn-ticket">
+                        <svg viewBox="0 0 100 100" width="18" height="18" style="margin-right: 8px;">
+                            <circle cx="50" cy="50" r="45" fill="#1DC9FF"/>
+                            <path d="M30 50 Q40 35 50 50 Q60 65 70 50" stroke="#fff" stroke-width="6" fill="none"/>
+                        </svg>
+                        Buy More with Wave
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="octalink-navbar">
+        <a href="login-gambia.html" class="nav-item"><span class="nav-icon">&#x2190;</span> Home</a>
+        <a href="tarifs-gambia.html" class="nav-item"><span class="nav-icon">&#x1F4B0;</span> Packages</a>
+        <a href="contact-gambia.html" class="nav-item"><span class="nav-icon">&#x1F464;</span> Support</a>
+    </nav>
+    
+    <script src="conf-gambia.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    
+    <script type="text/javascript">
+    function openLogout(){
+        if(confirm("Are you sure you want to disconnect?")){
+            return true;
+        }
+        return false;
+    }
+    </script>
+    
+    <style>
+        .logout-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%) !important;
+        }
+        
+        .logout-btn:hover {
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+        
+        .extend-session-box {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .status-badge.connected {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+    </style>
+</body>
+
+</html>

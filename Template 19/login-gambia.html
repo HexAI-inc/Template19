@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HexAI WiFi - Connect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="octalink-bg">
+    <div class="octalink-flex">
+        <div>
+            <div class="octalink-card">
+                <div class="octalink-card-header">
+                    <span class="macos-dot red"></span>
+                    <span class="macos-dot yellow"></span>
+                    <span class="macos-dot green"></span>
+                </div>
+                <div class="octalink-logo" style="display: flex; align-items: center; justify-content: center; gap: 16px;">
+                    <svg viewBox="0 0 24 24" class="wifi-icon" style="width:48px; height:48px;"><path d="M12,3L2,12H5V20H11V14H13V20H19V12H22L12,3M12,7.7C14.1,7.7 15.8,9.4 15.8,11.5C15.8,13.6 14.1,15.3 12,15.3C9.9,15.3 8.2,13.6 8.2,11.5C8.2,9.4 9.9,7.7 12,7.7Z" fill="#fff"/></svg>
+                    <span class="brand-name" style="font-size:2rem; font-weight:700; color:#fff; letter-spacing:1px;">HexAI WiFi</span>
+                </div>
+                <h2 class="octalink-title">Welcome to HexAI WiFi</h2>
+                <p class="octalink-subtitle">Enter your voucher code to connect</p>
+                <div class="octalink-switch" id="modeSwitch">
+                    <div class="switch-indicator"></div>
+                    <button id="voucher" class="switch-btn active" type="button" onclick="switchMode('voucher')">Voucher</button>
+                    <button id="member" class="switch-btn" type="button" onclick="switchMode('member')">Member</button>
+                </div>
+                $(if error)
+                    <div class="notice" id="err">$(error)</div>
+                $(endif)
+                <form autocomplete="off" name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+                    <input type="hidden" name="dst" value="$(link-orig)" />
+                    <input type="hidden" name="popup" value="true" />
+                    <label>
+                        <input name="username" id="username" type="text" value="$(username)" onchange="" oninput="setPass()" placeholder="Voucher Code" class="octalink-input" />
+                    </label>
+                    <label id="passwordLabel" style="display: none;">
+                        <input name="password" id="password" type="password" placeholder="Password" class="octalink-input" />
+                    </label>
+                    <input type="submit" value="Connect" class="octalink-btn-primary" />
+                    <a href="tarifs-gambia.html" class="octalink-btn-ticket">
+                        <svg class="ticket-icon" viewBox="0 0 24 24"><path d="M22,10V6A2,2 0 0,0 20,4H4A2,2 0 0,0 2,6V10C3.11,10 4,10.9 4,12A2,2 0 0,1 2,14V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V14A2,2 0 0,1 20,12C20,10.9 20.9,10 22,10M13,17H11V15H13V17M13,13H11V7H13V13Z"/></svg>
+                        Buy WiFi Voucher
+                    </a>
+                </form>
+            </div>
+            <div class="octalink-slider-container">
+                <div class="octalink-slider" id="octalinkSlider">
+                    <div class="octalink-slide" style="background-image: url('img/1.jpg');">Fast & Secure WiFi</div>
+                    <div class="octalink-slide" style="background-image: url('img/2.jpg');">High-Speed Connection</div>
+                    <div class="octalink-slide" style="background-image: url('img/3.jpg');">24/7 Technical Support</div>
+                </div>
+                <div class="octalink-slider-dots" id="octalinkSliderDots">
+                    <div class="octalink-slider-dot active" onclick="goToOctalinkSlide(0)"></div>
+                    <div class="octalink-slider-dot" onclick="goToOctalinkSlide(1)"></div>
+                    <div class="octalink-slider-dot" onclick="goToOctalinkSlide(2)"></div>
+                </div>
+            </div>
+            <div class="contact-macos-card">
+                <div class="contact-macos-header">
+                    <span class="macos-dot red"></span>
+                    <span class="macos-dot yellow"></span>
+                    <span class="macos-dot green"></span>
+                </div>
+                <div class="contact-macos-title">Contact Us</div>
+                <div class="contact-macos-list">
+                    <div class="contact-macos-item">
+                        <span class="contact-icon">
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z" stroke="#4eaaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span>+220 123 4567</span>
+                    </div>
+                    <div class="contact-macos-item">
+                        <span class="contact-icon">
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="#4eaaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span>support@hexai.gm</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="tariff-macos-card">
+                <div class="tariff-macos-header">
+                    <span class="macos-dot red"></span>
+                    <span class="macos-dot yellow"></span>
+                    <span class="macos-dot green"></span>
+                </div>
+                <div class="tariff-macos-title">WiFi Packages</div>
+                <div class="tariff-macos-list">
+                    <div class="tariff-macos-item">
+                        <div class="tariff-name">1 Hour</div>
+                        <div class="tariff-price">D10</div>
+                        <ul>
+                            <li>High-speed connection</li>
+                            <li>Pay with Wave</li>
+                            <li>Unlimited access</li>
+                        </ul>
+                        <button onclick="buyPackage('1h', 10, '1 Hour')" class="tariff-macos-buy">Buy Now</button>
+                    </div>
+                    <div class="tariff-macos-item popular">
+                        <div class="popular-badge">Best Value</div>
+                        <div class="tariff-name">24 Hours</div>
+                        <div class="tariff-price">D25</div>
+                        <ul>
+                            <li>High-speed connection</li>
+                            <li>Pay with Wave</li>
+                            <li>Full day access</li>
+                            <li>Best value!</li>
+                        </ul>
+                        <button onclick="buyPackage('24h', 25, '24 Hours')" class="tariff-macos-buy wave-btn">
+                            <svg viewBox="0 0 100 100" width="18" height="18" style="margin-right: 6px;">
+                                <circle cx="50" cy="50" r="45" fill="#1DC9FF"/>
+                                <path d="M30 50 Q40 35 50 50 Q60 65 70 50" stroke="#fff" stroke-width="6" fill="none"/>
+                            </svg>
+                            Pay D25 with Wave
+                        </button>
+                    </div>
+                    <div class="tariff-macos-item">
+                        <div class="tariff-name">1 Week</div>
+                        <div class="tariff-price">D100</div>
+                        <ul>
+                            <li>High-speed connection</li>
+                            <li>Pay with Wave</li>
+                            <li>7 days unlimited</li>
+                            <li>Save 40%</li>
+                        </ul>
+                        <button onclick="buyPackage('1w', 100, '1 Week')" class="tariff-macos-buy">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="services-macos-card">
+                <div class="services-macos-header">
+                    <span class="macos-dot red"></span>
+                    <span class="macos-dot yellow"></span>
+                    <span class="macos-dot green"></span>
+                </div>
+                <div class="services-macos-title">Our Services</div>
+                <div class="services-macos-list">
+                    <div class="services-macos-item">
+                        <div class="service-name">High-Speed WiFi</div>
+                        <div class="service-desc">Enjoy fast and stable connection across all areas.</div>
+                    </div>
+                    <div class="services-macos-item">
+                        <div class="service-name">24/7 Support</div>
+                        <div class="service-desc">Our team is available anytime to assist you.</div>
+                    </div>
+                    <div class="services-macos-item">
+                        <div class="service-name">Wave Payment</div>
+                        <div class="service-desc">Easy and secure payment via Wave Mobile Money.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Navigation bar -->
+    <nav class="octalink-navbar">
+        <a href="javascript:history.back()" class="nav-item"><span class="nav-icon">&#x2190;</span> Back</a>
+        <a href="tarifs-gambia.html" class="nav-item"><span class="nav-icon">&#x1F4B0;</span> Packages</a>
+        <a href="#" class="nav-item" onclick="openQR()"><span class="nav-icon">&#x1F4F7;</span>Scan</a>
+        <a href="services-gambia.html" class="nav-item"><span class="nav-icon">&#x1F451;</span> Services</a>
+        <a href="contact-gambia.html" class="nav-item"><span class="nav-icon">&#x1F464;</span> Contact</a>
+    </nav>
+    <script src="./md5.js"></script>
+    <script src="conf-gambia.js"></script>
+    <script src="js/hexai-payment.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    <script>
+        function doLogin() {
+            document.sendin.username.value = document.login.username.value;
+            document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+        
+        let currentMode = 'voucher';
+        
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById('voucher').classList.toggle('active', mode === 'voucher');
+            document.getElementById('member').classList.toggle('active', mode === 'member');
+            var switchEl = document.getElementById('modeSwitch');
+            if (switchEl) {
+                if (mode === 'member') {
+                    switchEl.classList.add('member');
+                } else {
+                    switchEl.classList.remove('member');
+                }
+            }
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const passwordLabel = document.getElementById('passwordLabel');
+            if (mode === 'voucher') {
+                usernameInput.placeholder = 'Voucher Code';
+                passwordLabel.style.display = 'none';
+            } else {
+                usernameInput.placeholder = 'Username';
+                passwordLabel.style.display = 'block';
+                passwordInput.value = "";
+            }
+        }
+        
+        function setPass(){
+            if(currentMode == 'voucher'){
+                const usernameInput = document.getElementById('username');
+                const passwordInput = document.getElementById('password');
+                passwordInput.value = usernameInput.value;
+            }
+        }
+        
+        function openQR() {
+            window.open('https://laksa19.github.io/myqr', '_blank');
+        }
+        
+        // Buy package with HexAI Payment
+        function buyPackage(type, price, name) {
+            const tariff = {
+                type: type,
+                priceValue: price,
+                price: 'D' + price,
+                name: name,
+                duration: name
+            };
+            HexAIPayment.showPaymentUI(tariff);
+        }
+        
+        // Slider functionality
+        let octalinkCurrentSlide = 0;
+        
+        function goToOctalinkSlide(index) {
+            octalinkCurrentSlide = index;
+            updateOctalinkSlider();
+        }
+        
+        function nextOctalinkSlide() {
+            octalinkCurrentSlide = (octalinkCurrentSlide + 1) % 3;
+            updateOctalinkSlider();
+        }
+        
+        function updateOctalinkSlider() {
+            const slider = document.getElementById('octalinkSlider');
+            if (slider) {
+                slider.style.transform = `translateX(-${octalinkCurrentSlide * 100}%)`;
+            }
+            const dots = document.querySelectorAll('.octalink-slider-dot');
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === octalinkCurrentSlide);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            switchMode('voucher');
+            setInterval(nextOctalinkSlide, 4000);
+        });
+    </script>
+    
+    <style>
+        /* Additional styles for Gambia version */
+        .popular {
+            position: relative;
+            border: 2px solid #1DC9FF !important;
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #1DC9FF 0%, #0099CC 100%);
+            color: #fff;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .wave-btn {
+            background: linear-gradient(135deg, #1DC9FF 0%, #0099CC 100%) !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .wave-btn:hover {
+            box-shadow: 0 8px 25px rgba(29, 201, 255, 0.4);
+        }
+    </style>
+</body>
+
+</html>

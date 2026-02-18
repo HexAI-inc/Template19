@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WiFi Packages - HexAI WiFi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="octalink-bg tariffs-page">
+    <div class="octalink-flex">
+        <div class="tariff-macos-card" style="max-width: 600px; margin: 0 auto;">
+            <div class="tariff-macos-header">
+                <span class="macos-dot red"></span>
+                <span class="macos-dot yellow"></span>
+                <span class="macos-dot green"></span>
+            </div>
+            <div class="tariff-macos-title">
+                <svg viewBox="0 0 100 100" width="28" height="28" style="vertical-align: middle; margin-right: 8px;">
+                    <circle cx="50" cy="50" r="45" fill="#1DC9FF"/>
+                    <path d="M30 50 Q40 35 50 50 Q60 65 70 50" stroke="#fff" stroke-width="6" fill="none"/>
+                </svg>
+                WiFi Packages - Pay with Wave
+            </div>
+            <p style="color: rgba(255,255,255,0.7); text-align: center; margin-bottom: 20px; font-size: 0.9rem;">
+                Select a package and pay securely with Wave Mobile Money
+            </p>
+            <div class="tariff-macos-list">
+                <!-- 1 Hour Package -->
+                <div class="tariff-macos-item">
+                    <div class="tariff-name">1 Hour</div>
+                    <div class="tariff-price">D10</div>
+                    <ul>
+                        <li>High-speed connection</li>
+                        <li>Pay with Wave Mobile Money</li>
+                        <li>Instant voucher delivery</li>
+                    </ul>
+                    <button onclick="buyPackage('1h', 10, '1 Hour', '1 hour')" class="tariff-macos-buy">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="margin-right: 6px;">
+                            <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                        </svg>
+                        Buy D10
+                    </button>
+                </div>
+                
+                <!-- 24 Hours Package - POPULAR -->
+                <div class="tariff-macos-item popular-item">
+                    <div class="popular-tag">🔥 Best Value</div>
+                    <div class="tariff-name">24 Hours</div>
+                    <div class="tariff-price">D25</div>
+                    <ul>
+                        <li>High-speed connection</li>
+                        <li>Pay with Wave Mobile Money</li>
+                        <li>Full day unlimited access</li>
+                        <li>Most popular choice!</li>
+                    </ul>
+                    <button onclick="buyPackage('24h', 25, '24 Hours', '24 hours')" class="tariff-macos-buy wave-primary-btn">
+                        <svg viewBox="0 0 100 100" width="20" height="20" style="margin-right: 8px;">
+                            <circle cx="50" cy="50" r="45" fill="#fff"/>
+                            <path d="M30 50 Q40 35 50 50 Q60 65 70 50" stroke="#1DC9FF" stroke-width="6" fill="none"/>
+                        </svg>
+                        Pay D25 with Wave
+                    </button>
+                </div>
+                
+                <!-- 1 Week Package -->
+                <div class="tariff-macos-item">
+                    <div class="tariff-name">1 Week</div>
+                    <div class="tariff-price">D100</div>
+                    <ul>
+                        <li>High-speed connection</li>
+                        <li>Pay with Wave Mobile Money</li>
+                        <li>7 days unlimited access</li>
+                        <li>Save 40% vs daily</li>
+                    </ul>
+                    <button onclick="buyPackage('1w', 100, '1 Week', '7 days')" class="tariff-macos-buy">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="margin-right: 6px;">
+                            <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                        </svg>
+                        Buy D100
+                    </button>
+                </div>
+                
+                <!-- 1 Month Package -->
+                <div class="tariff-macos-item">
+                    <div class="tariff-name">1 Month</div>
+                    <div class="tariff-price">D350</div>
+                    <ul>
+                        <li>High-speed connection</li>
+                        <li>Pay with Wave Mobile Money</li>
+                        <li>30 days unlimited access</li>
+                        <li>Priority support</li>
+                        <li>Save 50% vs daily</li>
+                    </ul>
+                    <button onclick="buyPackage('1m', 350, '1 Month', '30 days')" class="tariff-macos-buy">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="margin-right: 6px;">
+                            <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                        </svg>
+                        Buy D350
+                    </button>
+                </div>
+            </div>
+            
+            <div class="payment-info-box">
+                <div class="payment-info-title">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="#1DC9FF" style="margin-right: 8px;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                    </svg>
+                    How it works
+                </div>
+                <ol class="payment-steps">
+                    <li>Select your preferred package above</li>
+                    <li>Click the buy button to proceed to Wave payment</li>
+                    <li>Complete payment with your Wave account</li>
+                    <li>Receive your voucher code instantly via SMS</li>
+                    <li>Enter the code on the login page to connect</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <div class="contact-macos-card" style="max-width: 400px; margin: 20px auto;">
+        <div class="contact-macos-header">
+            <span class="macos-dot red"></span>
+            <span class="macos-dot yellow"></span>
+            <span class="macos-dot green"></span>
+        </div>
+        <div class="contact-macos-title">Need Help?</div>
+        <div class="contact-macos-list">
+            <div class="contact-macos-item">
+                <span class="contact-icon">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z" stroke="#4eaaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span>+220 123 4567</span>
+            </div>
+            <div class="contact-macos-item">
+                <span class="contact-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                </span>
+                <span>WhatsApp Support</span>
+            </div>
+            <div class="contact-macos-item">
+                <span class="contact-icon">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="#4eaaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span>support@hexai.gm</span>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="octalink-navbar">
+        <a href="login-gambia.html" class="nav-item"><span class="nav-icon">&#x2190;</span> Back</a>
+        <a href="services-gambia.html" class="nav-item"><span class="nav-icon">&#x1F451;</span> Services</a>
+        <a href="contact-gambia.html" class="nav-item"><span class="nav-icon">&#x1F464;</span> Contact</a>
+    </nav>
+    
+    <script src="conf-gambia.js"></script>
+    <script src="js/hexai-payment.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    
+    <script>
+        // Buy package function
+        function buyPackage(type, price, name, duration) {
+            const tariff = {
+                type: type,
+                priceValue: price,
+                price: 'D' + price,
+                name: name,
+                duration: duration
+            };
+            HexAIPayment.showPaymentUI(tariff);
+        }
+    </script>
+    
+    <style>
+        /* Additional styles for tariffs page */
+        .popular-item {
+            position: relative;
+            border: 2px solid #1DC9FF !important;
+            background: linear-gradient(135deg, rgba(29, 201, 255, 0.1) 0%, rgba(0, 153, 204, 0.05) 100%) !important;
+        }
+        
+        .popular-tag {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #1DC9FF 0%, #0099CC 100%);
+            color: #fff;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(29, 201, 255, 0.4);
+        }
+        
+        .wave-primary-btn {
+            background: linear-gradient(135deg, #1DC9FF 0%, #0099CC 100%) !important;
+            color: #fff !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem !important;
+            padding: 14px 20px !important;
+        }
+        
+        .wave-primary-btn:hover {
+            box-shadow: 0 8px 30px rgba(29, 201, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .payment-info-box {
+            background: rgba(29, 201, 255, 0.1);
+            border: 1px solid rgba(29, 201, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .payment-info-title {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .payment-steps {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .payment-steps li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .payment-steps li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .tariff-macos-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .tariff-macos-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+
+</html>

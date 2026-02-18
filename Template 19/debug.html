@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug Configuration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .debug-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Debug Configuration Hotspot WiFi</h1>
+    
+    <div class="debug-panel">
+        <h2>📋 Test des fichiers</h2>
+        <div id="fileStatus"></div>
+        <button onclick="testFiles()">Tester les fichiers</button>
+    </div>
+
+    <div class="debug-panel">
+        <h2>⚙️ Test de la configuration</h2>
+        <div id="configStatus"></div>
+        <button onclick="testConfig()">Tester la configuration</button>
+    </div>
+
+    <div class="debug-panel">
+        <h2>🎯 Test de la page</h2>
+        <div id="pageStatus"></div>
+        <button onclick="testPage()">Tester la page</button>
+        <button onclick="window.open('test.html', '_blank')">Ouvrir test.html</button>
+        <button onclick="window.open('login.html', '_blank')">Ouvrir login.html</button>
+    </div>
+
+    <div class="debug-panel">
+        <h2>📊 Logs</h2>
+        <div id="logs"></div>
+        <button onclick="clearLogs()">Effacer les logs</button>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = `status ${type}`;
+            logEntry.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+        }
+
+        async function testFiles() {
+            const fileStatus = document.getElementById('fileStatus');
+            fileStatus.innerHTML = '';
+            
+            const files = [
+                'config.json',
+                'config-simple.json',
+                'js/config-loader.js',
+                'css/style.css',
+                'img/1.jpg',
+                'img/2.jpg',
+                'img/3.jpg'
+            ];
+
+            for (const file of files) {
+                try {
+                    const response = await fetch(file);
+                    if (response.ok) {
+                        fileStatus.innerHTML += `<div class="status success">✅ ${file} - OK</div>`;
+                        log(`Fichier ${file} trouvé`, 'success');
+                    } else {
+                        fileStatus.innerHTML += `<div class="status error">❌ ${file} - Erreur ${response.status}</div>`;
+                        log(`Fichier ${file} non trouvé (${response.status})`, 'error');
+                    }
+                } catch (error) {
+                    fileStatus.innerHTML += `<div class="status error">❌ ${file} - Erreur réseau</div>`;
+                    log(`Erreur réseau pour ${file}: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        async function testConfig() {
+            const configStatus = document.getElementById('configStatus');
+            configStatus.innerHTML = '';
+            
+            try {
+                // Tester config.json
+                let response = await fetch('config.json');
+                if (response.ok) {
+                    const config = await response.json();
+                    configStatus.innerHTML += `<div class="status success">✅ config.json chargé</div>`;
+                    configStatus.innerHTML += `<pre>${JSON.stringify(config, null, 2)}</pre>`;
+                    log('Configuration config.json chargée avec succès', 'success');
+                } else {
+                    // Tester config-simple.json
+                    response = await fetch('config-simple.json');
+                    if (response.ok) {
+                        const config = await response.json();
+                        configStatus.innerHTML += `<div class="status warning">⚠️ config-simple.json chargé (fallback)</div>`;
+                        configStatus.innerHTML += `<pre>${JSON.stringify(config, null, 2)}</pre>`;
+                        log('Configuration config-simple.json chargée (fallback)', 'warning');
+                    } else {
+                        throw new Error('Aucun fichier de configuration trouvé');
+                    }
+                }
+            } catch (error) {
+                configStatus.innerHTML += `<div class="status error">❌ Erreur de configuration: ${error.message}</div>`;
+                log(`Erreur de configuration: ${error.message}`, 'error');
+            }
+        }
+
+        async function testPage() {
+            const pageStatus = document.getElementById('pageStatus');
+            pageStatus.innerHTML = '';
+            
+            try {
+                // Tester si les éléments DOM existent
+                const testDiv = document.createElement('div');
+                testDiv.innerHTML = `
+                    <div class="brand-logo">
+                        <div class="wifi-logo">
+                            <svg viewBox="0 0 24 24" class="wifi-icon">
+                                <path d="M12,3L2,12H5V20H11V14H13V20H19V12H22L12,3M12,7.7C14.1,7.7 15.8,9.4 15.8,11.5C15.8,13.6 14.1,15.3 12,15.3C9.9,15.3 8.2,13.6 8.2,11.5C8.2,9.4 9.9,7.7 12,7.7Z" fill="#fff"/>
+                            </svg>
+                        </div>
+                        <h1 class="brand-name">mnaSpot</h1>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider" id="slider"></div>
+                        <div class="slider-dots" id="sliderDots"></div>
+                    </div>
+                    <div class="mode"></div>
+                    <form name="login">
+                        <div class="info" id="infologin"></div>
+                        <label>
+                            <img id="ico1" class="ico" src="img/voucher.svg" alt="Voucher" />
+                            <input name="username" type="text" />
+                        </label>
+                        <label>
+                            <img id="ico2" class="ico" src="img/password.svg" alt="Mot de passe" />
+                            <input name="password" type="hidden" />
+                        </label>
+                    </form>
+                    <div class="tariffs-container">
+                        <h2 class="tariffs-title">Nos Tarifs WiFi</h2>
+                    </div>
+                    <nav class="bottom-navbar"></nav>
+                `;
+                
+                document.body.appendChild(testDiv);
+                
+                // Charger le script de configuration
+                const script = document.createElement('script');
+                script.src = 'js/config-loader.js';
+                document.head.appendChild(script);
+                
+                pageStatus.innerHTML += `<div class="status info">🔄 Test de la page en cours...</div>`;
+                log('Test de la page démarré', 'info');
+                
+                // Attendre que le script se charge
+                setTimeout(() => {
+                    if (window.appConfig) {
+                        pageStatus.innerHTML += `<div class="status success">✅ Configuration chargée dans la page</div>`;
+                        log('Configuration chargée avec succès dans la page', 'success');
+                    } else {
+                        pageStatus.innerHTML += `<div class="status error">❌ Configuration non chargée</div>`;
+                        log('Configuration non chargée dans la page', 'error');
+                    }
+                }, 2000);
+                
+            } catch (error) {
+                pageStatus.innerHTML += `<div class="status error">❌ Erreur de test: ${error.message}</div>`;
+                log(`Erreur de test: ${error.message}`, 'error');
+            }
+        }
+
+        // Tests automatiques au chargement
+        window.addEventListener('load', () => {
+            log('Page de debug chargée', 'info');
+            setTimeout(() => {
+                testFiles();
+            }, 500);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotspot WiFi - Connexion</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
+
+    <script src="/md5.js"></script>
+    <script>
+        function doLogin() {
+            document.sendin.username.value = document.login.username.value;
+            document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+    </script>
+    $(endif)
+
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <!-- Logo WiFi + mnaSpot -->
+                <div class="brand-logo">
+                    <div class="wifi-logo">
+                        <svg viewBox="0 0 24 24" class="wifi-icon">
+                            <path d="M12,3L2,12H5V20H11V14H13V20H19V12H22L12,3M12,7.7C14.1,7.7 15.8,9.4 15.8,11.5C15.8,13.6 14.1,15.3 12,15.3C9.9,15.3 8.2,13.6 8.2,11.5C8.2,9.4 9.9,7.7 12,7.7Z" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <h1 class="brand-name">mnaSpot</h1>
+                </div>
+
+                <!-- Slider d'images -->
+                <div class="slider-container">
+                    <div class="slider" id="slider">
+                        <!-- Les slides seront générés dynamiquement -->
+                    </div>
+                    <div class="slider-dots" id="sliderDots">
+                        <!-- Les points seront générés dynamiquement -->
+                    </div>
+                </div>
+
+                <!-- Mode de connexion -->
+                <div class="mode">
+                    <!-- Les boutons seront générés dynamiquement -->
+                </div>
+
+                <!-- Formulaire de connexion -->
+                <form autocomplete="off" name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+                    <input type="hidden" name="dst" value="$(link-orig)" />
+                    <input type="hidden" name="popup" value="true" />
+                    
+                    <div class="info" id="infologin">Entrez votre code voucher pour vous connecter</div>
+                    
+                    $(if error)
+                    <div class="notice" id="err">$(error)</div>
+                    $(endif)
+                    
+                    <div class="info">
+                        $(if trial == 'yes')
+                        <br />Essai gratuit disponible, <a href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)" style="color: #fff; text-decoration: underline;">cliquez ici</a>.
+                        $(endif)
+                    </div>
+                       
+                    <label>
+                        <img id="ico1" class="ico" src="img/voucher.svg" alt="Voucher" />
+                        <input name="username" type="text" value="$(username)" placeholder="Code Voucher" />
+                    </label>
+
+                    <label>
+                        <img id="ico2" class="ico" src="img/password.svg" alt="Mot de passe" />
+                        <input name="password" type="hidden" placeholder="Mot de passe" />
+                    </label>
+
+                    <input type="submit" value="Se Connecter" />
+                </form>
+
+                <!-- Cartes de tarifs -->
+                <div class="tariffs-container">
+                    <h2 class="tariffs-title">Nos Tarifs WiFi</h2>
+                    <!-- Les cartes seront générées dynamiquement -->
+                </div>
+
+                <p class="info bt">Propulsé par MNA</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar du bas -->
+    <nav class="bottom-navbar">
+        <!-- La navigation sera générée dynamiquement -->
+    </nav>
+
+    <script src="js/simple-config.js"></script>
+    <script src="js/theme-toggle.js"></script>
+
+</body>
+
+</html> 

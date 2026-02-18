@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Démo Couleurs MikroTik - Hotspot WiFi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .color-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .color-swatch {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .demo-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .demo-title {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .demo-subtitle {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                
+                <!-- Logo WiFi + mnaSpot -->
+                <div class="brand-logo">
+                    <div class="wifi-logo">
+                        <svg viewBox="0 0 24 24" class="wifi-icon">
+                            <path d="M12,3L2,12H5V20H11V14H13V20H19V12H22L12,3M12,7.7C14.1,7.7 15.8,9.4 15.8,11.5C15.8,13.6 14.1,15.3 12,15.3C9.9,15.3 8.2,13.6 8.2,11.5C8.2,9.4 9.9,7.7 12,7.7Z" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <h1 class="brand-name">mnaSpot</h1>
+                </div>
+
+                <div class="demo-title">🎨 Palette de Couleurs MikroTik</div>
+                <div class="demo-subtitle">Nouvelles couleurs officielles MikroTik appliquées au template</div>
+
+                <!-- Palette de couleurs -->
+                <div class="demo-section">
+                    <h2 style="color: #fff; text-align: center; margin-bottom: 20px;">Palette de Couleurs</h2>
+                    <div class="color-palette">
+                        <div class="color-card">
+                            <div class="color-swatch" style="background: #0066CC;">#0066CC</div>
+                            <h3>Bleu Principal</h3>
+                            <p>Bleu MikroTik officiel</p>
+                        </div>
+                        <div class="color-card">
+                            <div class="color-swatch" style="background: #003366;">#003366</div>
+                            <h3>Bleu Foncé</h3>
+                            <p>Bleu foncé pour les gradients</p>
+                        </div>
+                        <div class="color-card">
+                            <div class="color-swatch" style="background: #FF6B35; color: #000;">#FF6B35</div>
+                            <h3>Orange</h3>
+                            <p>Orange pour les alertes</p>
+                        </div>
+                        <div class="color-card">
+                            <div class="color-swatch" style="background: #F5F5F5; color: #333;">#F5F5F5</div>
+                            <h3>Gris Clair</h3>
+                            <p>Gris clair MikroTik</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Démonstration des boutons -->
+                <div class="demo-section">
+                    <h2 style="color: #fff; text-align: center; margin-bottom: 20px;">Boutons avec Couleurs MikroTik</h2>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                        <input type="submit" value="Bouton Principal" style="width: auto; padding: 12px 30px;">
+                        <button class="buy-btn" style="width: auto;">Bouton Acheter</button>
+                        <button class="service-btn" style="width: auto;">Bouton Service</button>
+                    </div>
+                </div>
+
+                <!-- Démonstration des cartes -->
+                <div class="demo-section">
+                    <h2 style="color: #fff; text-align: center; margin-bottom: 20px;">Cartes avec Couleurs MikroTik</h2>
+                    <div class="tariff-card">
+                        <div class="tariff-header">
+                            <div class="tariff-name">Démonstration</div>
+                            <div class="tariff-price">Gratuit</div>
+                        </div>
+                        <ul class="tariff-features">
+                            <li>Couleurs MikroTik appliquées</li>
+                            <li>Design moderne et professionnel</li>
+                            <li>Compatible avec RouterOS</li>
+                        </ul>
+                        <button class="buy-btn">Tester</button>
+                    </div>
+                </div>
+
+                <!-- Démonstration du slider -->
+                <div class="demo-section">
+                    <h2 style="color: #fff; text-align: center; margin-bottom: 20px;">Slider avec Couleurs MikroTik</h2>
+                    <div class="slider-container">
+                        <div class="slider" id="slider">
+                            <div class="slide slide-1" style="background: linear-gradient(135deg, #0066CC, #003366);">Couleurs MikroTik</div>
+                            <div class="slide slide-2" style="background: linear-gradient(135deg, #0066CC, #003366);">Design Professionnel</div>
+                            <div class="slide slide-3" style="background: linear-gradient(135deg, #0066CC, #003366);">RouterOS Compatible</div>
+                        </div>
+                        <div class="slider-dots" id="sliderDots">
+                            <div class="dot active" onclick="goToSlide(0)"></div>
+                            <div class="dot" onclick="goToSlide(1)"></div>
+                            <div class="dot" onclick="goToSlide(2)"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="demo-section">
+                    <h2 style="color: #fff; text-align: center; margin-bottom: 20px;">Navigation avec Couleurs MikroTik</h2>
+                    <nav class="bottom-navbar" style="position: relative; margin-top: 20px; border-radius: 16px;">
+                        <a href="#" class="nav-item">
+                            <svg class="nav-icon" viewBox="0 0 24 24">
+                                <path d="M12,2l3.09,6.26L22,9.27l-5,4.87L18.18,22L12,18.27L5.82,22L7,14.14L2,9.27L8.91,8.26L12,2z"/>
+                            </svg>
+                            <span class="nav-text">Services</span>
+                        </a>
+                        <a href="#" class="nav-item active">
+                            <svg class="nav-icon" viewBox="0 0 24 24">
+                                <path d="M3,3h6v6h-6z M15,3h6v6h-6z M3,15h6v6h-6z M16,16h2v2h-2z M19,16h2v2h-2z M16,19h2v2h-2z M19,19h2v2h-2z M22,16h2v2h-2z M22,19h2v2h-2z"/>
+                            </svg>
+                            <span class="nav-text">QR Code</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <svg class="nav-icon" viewBox="0 0 24 24">
+                                <path d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM13,17h-2v-6h2v6zM13,9h-2L11,7h2v2z"/>
+                            </svg>
+                            <span class="nav-text">Tarifs</span>
+                        </a>
+                    </nav>
+                </div>
+
+                <p class="info bt">Propulsé par MikroTik RouterOS - Couleurs Officielles</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Slider simple pour la démo
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            const slider = document.getElementById('slider');
+            slider.style.transform = `translateX(-${index * 100}%)`;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+        }
+
+        // Auto-slide toutes les 3 secondes
+        setInterval(nextSlide, 3000);
+
+        // Animation d'entrée
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html> 
