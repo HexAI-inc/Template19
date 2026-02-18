@@ -5,6 +5,7 @@ services:
   - name: payment-backend
     source_dir: backend
     github:
+      repo: HexAI-inc/Template19
       branch: main
       deploy_on_push: true
     run_command: node server.js
@@ -38,6 +39,7 @@ static_sites:
   - name: hotspot-frontend
     source_dir: /
     github:
+      repo: HexAI-inc/Template19
       branch: main
       deploy_on_push: true
     index_document: login-gambia.html
