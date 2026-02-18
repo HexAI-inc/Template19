@@ -93,15 +93,21 @@ function getErrorMessage(code, fallbackMessage) {
 }
 
 /**
- * Health check endpoint
+ * Health check endpoints
+ * Handles both /health and / (since DO strips prefixes)
  */
-app.get('/health', (req, res) => {
+const healthCheck = (req, res) => {
     res.json({ 
         status: 'ok', 
         service: 'HexAI WiFi Payment Backend',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        env: process.env.NODE_ENV || 'development'
     });
-});
+};
+
+app.get('/health', healthCheck);
+apiRouter.get('/health', healthCheck);
+apiRouter.get('/', healthCheck);
 
 /**
  * Get API status
