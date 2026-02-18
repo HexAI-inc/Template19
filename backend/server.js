@@ -512,6 +512,19 @@ apiRouter.get('/transactions', (req, res) => {
 app.use('/api', apiRouter);
 app.use('/', apiRouter);
 
+// Global 404 handler for the backend - must be last
+// Ensures we always return JSON instead of HTML
+app.use((req, res) => {
+    console.log(`[${new Date().toISOString()}] 404 Not Found: ${req.method} ${req.url}`);
+    res.status(404).json({
+        status: 'error',
+        error: {
+            code: 'NOT_FOUND',
+            message: `Route ${req.method} ${req.url} not found on this server`
+        }
+    });
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`
