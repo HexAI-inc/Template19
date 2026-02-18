@@ -28,9 +28,9 @@ services:
       - key: BUSINESS_NAME
         value: LE.SS WiFi
       - key: SUCCESS_URL
-        value: https://less-wifi.ondigitalocean.app/alogin-gambia.html
+        value: https://less-wifi-hotspot-23gu3.ondigitalocean.app/alogin-gambia.html
       - key: ERROR_URL
-        value: https://less-wifi.ondigitalocean.app/error-gambia.html
+        value: https://less-wifi-hotspot-23gu3.ondigitalocean.app/error-gambia.html
     routes:
       - path: /api
       - path: /health
