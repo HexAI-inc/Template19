@@ -234,12 +234,27 @@ const HexAIPayment = {
         try {
             const clientReference = this.generateReference(tariff.type);
 
+            // Capture MikroTik device info if available
+            let deviceInfo = {};
+            if (typeof MikroTikHelper !== 'undefined') {
+                deviceInfo = MikroTikHelper.getDeviceInfo();
+            } else {
+                // Fallback: try to get from sessionStorage
+                try {
+                    const stored = sessionStorage.getItem('mikrotik_device_info');
+                    if (stored) deviceInfo = JSON.parse(stored);
+                } catch (e) {
+                    console.log('No MikroTik device info available');
+                }
+            }
+
             sessionStorage.setItem('hexai_payment', JSON.stringify({
                 reference: clientReference,
                 packageType: tariff.type,
                 packageName: tariff.name,
                 amount: tariff.priceValue,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                deviceInfo: deviceInfo  // Store for voucher generation
             }));
 
             const response = await fetch(`${this.config.backendUrl}/api/payment/initiate`, {
@@ -250,7 +265,9 @@ const HexAIPayment = {
                     currency: this.config.currency,
                     client_reference: clientReference,
                     package_type: tariff.type,
-                    package_name: tariff.name
+                    package_name: tariff.name,
+                    // Include device info for voucher generation
+                    device_info: deviceInfo
                 })
             });
 
@@ -258,8 +275,16 @@ const HexAIPayment = {
             console.log('Pre-fetched payment URL:', data);
 
             const paymentUrl = data?.data?.wave_launch_url || data?.data?.redirect_url;
+            const voucherCode = data?.data?.voucher_code;
 
             if (data.status === 'success' && paymentUrl) {
+                // Store voucher code in session for the success page
+                if (voucherCode) {
+                    const paymentData = JSON.parse(sessionStorage.getItem('hexai_payment') || '{}');
+                    paymentData.voucherCode = voucherCode;
+                    sessionStorage.setItem('hexai_payment', JSON.stringify(paymentData));
+                }
+
                 // URL is ready - update button immediately
                 this._pendingPaymentUrl = paymentUrl;
                 const btn = document.getElementById('hexai-pay-btn');

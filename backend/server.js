@@ -133,7 +133,8 @@ apiRouter.post('/payment/initiate', async (req, res) => {
             package_name, 
             customer_phone,
             success_url,
-            error_url 
+            error_url,
+            device_info  // MikroTik device information
         } = req.body;
 
         // Validate required fields
@@ -149,6 +150,9 @@ apiRouter.post('/payment/initiate', async (req, res) => {
 
         // Generate unique client reference
         const clientReference = generateReference(package_type);
+        
+        // Generate voucher code for WiFi access
+        const voucherCode = generateVoucherCode(package_type, device_info?.mac);
         
         // Format amount as string with 2 decimal places (e.g., "25.00")
         const amountFormatted = parseFloat(amount).toFixed(2);
@@ -180,7 +184,9 @@ apiRouter.post('/payment/initiate', async (req, res) => {
         console.log(`[${new Date().toISOString()}] Initiating payment:`, {
             reference: clientReference,
             amount: `D${amountFormatted}`,
-            package: package_name
+            package: package_name,
+            voucher: voucherCode,
+            device_mac: device_info?.mac || 'N/A'
         });
         
         // Log the full payload being sent
@@ -218,6 +224,8 @@ apiRouter.post('/payment/initiate', async (req, res) => {
                 amount: parseFloat(amount),
                 package_type,
                 package_name,
+                voucher_code: voucherCode,
+                device_info: device_info || {},
                 status: 'PENDING',
                 created_at: new Date().toISOString(),
                 transaction_id: responseData.transaction_id
@@ -234,7 +242,9 @@ apiRouter.post('/payment/initiate', async (req, res) => {
                 data: {
                     transaction_id: responseData.transaction_id,
                     redirect_url: responseData.redirect_url,
+                    wave_launch_url: responseData.wave_launch_url,
                     client_reference: clientReference,
+                    voucher_code: voucherCode,  // Return voucher for later use
                     status: responseData.status || 'PENDING'
                 }
             });
@@ -446,6 +456,25 @@ function generateReference(packageType) {
     const timestamp = Date.now();
     const random = crypto.randomBytes(4).toString('hex').toUpperCase();
     return `WIFI-${packageType.toUpperCase()}-${timestamp}-${random}`;
+}
+
+/**
+ * Generate voucher code for MikroTik hotspot authentication
+ * Format: PKG-MACADDR-TIMESTAMP-RANDOM
+ * This voucher will be used as username/password for MikroTik login
+ */
+function generateVoucherCode(packageType, macAddress) {
+    const timestamp = Date.now().toString(36).toUpperCase();
+    const random = crypto.randomBytes(3).toString('hex').toUpperCase();
+    
+    // Extract MAC address short form (last 6 chars without colons)
+    let macShort = 'DEVICE';
+    if (macAddress) {
+        macShort = macAddress.replace(/[^a-fA-F0-9]/g, '').substring(6, 12).toUpperCase();
+    }
+    
+    // Format: 24H-A1B2C3-TIMESTAMP-ABC123
+    return `${packageType.toUpperCase()}-${macShort}-${timestamp}${random}`;
 }
 
 /**
