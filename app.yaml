@@ -23,6 +23,9 @@ services:
       - key: API_KEY
         value: hexai_pba1qb16rxe
         type: SECRET
+      - key: WEBHOOK_SECRET
+        value: 54d052916727201141064a633bd59dd8c1389ebc9c4c55b971f38bd6e7c497ff
+        type: SECRET
       - key: CURRENCY
         value: GMD
       - key: BUSINESS_NAME

@@ -131,7 +131,14 @@ apiRouter.get('/status', (req, res) => {
         status: 'active',
         business: BUSINESS_NAME,
         currency: CURRENCY,
-        gateway: 'HexAI Payment Gateway'
+        gateway: 'HexAI Payment Gateway',
+        webhook: {
+            endpoint: '/api/webhook',
+            secret_configured: !!WEBHOOK_SECRET,
+            full_url: process.env.NODE_ENV === 'production' 
+                ? 'https://less-wifi-hotspot-23gu3.ondigitalocean.app/api/webhook'
+                : `http://localhost:${PORT}/api/webhook`
+        }
     });
 });
 
@@ -395,11 +402,25 @@ apiRouter.get('/payment/status/:reference', async (req, res) => {
  */
 apiRouter.post('/webhook', async (req, res) => {
     try {
-        const signature = req.headers['wave-signature'] || req.headers['x-webhook-signature'];
+        // Check for signature in multiple possible header names
+        const signature = req.headers['wave-signature'] || 
+                         req.headers['x-webhook-signature'] ||
+                         req.headers['x-wave-signature'];
         const payload = JSON.stringify(req.body);
 
+        console.log(`[${new Date().toISOString()}] Webhook request received:`, {
+            has_signature: !!signature,
+            secret_configured: !!WEBHOOK_SECRET,
+            headers: Object.keys(req.headers).filter(h => h.includes('signature') || h.includes('wave'))
+        });
+
         // Verify webhook signature if secret is configured
-        if (WEBHOOK_SECRET && signature) {
+        if (WEBHOOK_SECRET) {
+            if (!signature) {
+                console.error(`[${new Date().toISOString()}] Webhook signature missing (secret is configured)`);
+                return res.status(401).json({ error: 'Signature required' });
+            }
+
             const expectedSignature = crypto
                 .createHmac('sha256', WEBHOOK_SECRET)
                 .update(payload)
@@ -407,8 +428,14 @@ apiRouter.post('/webhook', async (req, res) => {
 
             if (signature !== expectedSignature) {
                 console.error(`[${new Date().toISOString()}] Invalid webhook signature`);
+                console.error(`Expected: ${expectedSignature}`);
+                console.error(`Received: ${signature}`);
                 return res.status(401).json({ error: 'Invalid signature' });
             }
+            
+            console.log(`[${new Date().toISOString()}] Webhook signature verified ✓`);
+        } else {
+            console.warn(`[${new Date().toISOString()}] WARNING: Webhook secret not configured - accepting unsigned webhooks`);
         }
 
         const { event, transaction } = req.body;
