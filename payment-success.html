@@ -104,17 +104,75 @@
         let voucherData = null;
         let deviceInfo = null;
 
-        // Check for payment data in sessionStorage
+        // Check for payment data in sessionStorage or URL parameters
         async function loadPaymentData() {
             try {
-                // Try to get payment info from sessionStorage
-                const paymentStr = sessionStorage.getItem('hexai_payment');
-                if (!paymentStr) {
-                    throw new Error('No payment data found');
+                // Log Wave redirect parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                const allParams = {};
+                for (const [key, value] of urlParams.entries()) {
+                    allParams[key] = value;
                 }
+                
+                console.log('=== WAVE SUCCESS REDIRECT DEBUG ===');
+                console.log('URL:', window.location.href);
+                console.log('Parameters:', allParams);
+                console.log('Hash:', window.location.hash);
+                console.log('Timestamp:', new Date().toISOString());
+                console.log('================================');
+                
+                // Send to backend for logging
+                fetch('/api/log-redirect', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        page: 'success',
+                        url: window.location.href,
+                        params: allParams,
+                        timestamp: new Date().toISOString()
+                    })
+                }).catch(e => console.error('Failed to send log:', e));
 
-                const payment = JSON.parse(paymentStr);
-                voucherData = payment;
+                // Try to get payment info from URL parameters (Wave redirect)
+                const transactionId = urlParams.get('transaction_id') || 
+                                     urlParams.get('reference') || 
+                                     urlParams.get('client_reference') ||
+                                     urlParams.get('id');
+                
+                if (transactionId) {
+                    // Query backend for payment status
+                    console.log('Fetching payment status for reference:', transactionId);
+                    const response = await fetch(`/api/payment/status/${transactionId}`);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch payment status');
+                    }
+                    const result = await response.json();
+                    
+                    if (result.status === 'success' && result.data) {
+                        // Map API response to our payment data format
+                        const apiData = result.data;
+                        const packageInfo = result.data.package_info;
+                        
+                        voucherData = {
+                            packageType: packageInfo?.package_type || 'unknown',
+                            packageName: packageInfo?.package_name || 'WiFi Package',
+                            amount: packageInfo?.amount || '0',
+                            reference: transactionId,
+                            voucherCode: packageInfo?.voucher_code || null,
+                            status: apiData.status
+                        };
+                    } else {
+                        throw new Error('Payment not found or failed');
+                    }
+                } else {
+                    // Fallback to sessionStorage
+                    const paymentStr = sessionStorage.getItem('hexai_payment');
+                    if (!paymentStr) {
+                        throw new Error('No payment data found in URL or sessionStorage');
+                    }
+                    const payment = JSON.parse(paymentStr);
+                    voucherData = payment;
+                }
 
                 // Get device info if available
                 if (typeof MikroTikHelper !== 'undefined') {
@@ -122,7 +180,7 @@
                 }
 
                 // Display success
-                showSuccess(payment);
+                showSuccess(voucherData);
 
             } catch (error) {
                 console.error('Error loading payment:', error);

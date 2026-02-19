@@ -78,6 +78,35 @@
     
     <script src="conf-gambia.js"></script>
     <script src="js/theme-toggle.js"></script>
+    <script>
+        // Log Wave redirect parameters
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const allParams = {};
+            for (const [key, value] of urlParams.entries()) {
+                allParams[key] = value;
+            }
+            
+            console.log('=== WAVE ERROR REDIRECT DEBUG ===');
+            console.log('URL:', window.location.href);
+            console.log('Parameters:', allParams);
+            console.log('Hash:', window.location.hash);
+            console.log('Timestamp:', new Date().toISOString());
+            console.log('================================');
+            
+            // Send to backend for logging
+            fetch('/api/log-redirect', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    page: 'error',
+                    url: window.location.href,
+                    params: allParams,
+                    timestamp: new Date().toISOString()
+                })
+            }).catch(e => console.error('Failed to send log:', e));
+        })();
+    </script>
 </body>
 
 </html>

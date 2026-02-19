@@ -105,6 +105,20 @@ const healthCheck = (req, res) => {
     });
 };
 
+/**
+ * Log Wave redirect for debugging
+ * POST /api/log-redirect
+ */
+apiRouter.post('/log-redirect', (req, res) => {
+    const { page, url, params, timestamp } = req.body;
+    console.log(`[${timestamp || new Date().toISOString()}] === WAVE REDIRECT LOG ===`);
+    console.log(`Page: ${page}`);
+    console.log(`URL: ${url}`);
+    console.log(`Parameters:`, JSON.stringify(params, null, 2));
+    console.log('=======================================');
+    res.json({ status: 'logged' });
+});
+
 app.get('/health', healthCheck);
 apiRouter.get('/health', healthCheck);
 apiRouter.get('/', healthCheck);
