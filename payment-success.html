@@ -134,15 +134,16 @@
                 }).catch(e => console.error('Failed to send log:', e));
 
                 // Try to get payment info from URL parameters (Wave redirect)
-                const transactionId = urlParams.get('transaction_id') || 
-                                     urlParams.get('reference') || 
-                                     urlParams.get('client_reference') ||
-                                     urlParams.get('id');
+                // Wave redirects with our appended reference parameter
+                const reference = urlParams.get('reference') || 
+                                 urlParams.get('client_reference') ||
+                                 urlParams.get('transaction_id') || 
+                                 urlParams.get('id');
                 
-                if (transactionId) {
+                if (reference) {
                     // Query backend for payment status
-                    console.log('Fetching payment status for reference:', transactionId);
-                    const response = await fetch(`/api/payment/status/${transactionId}`);
+                    console.log('Fetching payment status for reference:', reference);
+                    const response = await fetch(`/api/payment/status/${reference}`);
                     if (!response.ok) {
                         throw new Error('Failed to fetch payment status');
                     }
@@ -157,7 +158,7 @@
                             packageType: packageInfo?.package_type || 'unknown',
                             packageName: packageInfo?.package_name || 'WiFi Package',
                             amount: packageInfo?.amount || '0',
-                            reference: transactionId,
+                            reference: reference,
                             voucherCode: packageInfo?.voucher_code || null,
                             status: apiData.status
                         };

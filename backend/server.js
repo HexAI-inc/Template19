@@ -178,14 +178,23 @@ apiRouter.post('/payment/initiate', async (req, res) => {
         // Check if provided URLs are valid HTTPS (Wave requires HTTPS, not localhost)
         const isValidUrl = (url) => url && url.startsWith('https://');
         
+        // Build callback URLs with reference parameter
+        // Wave doesn't append parameters, so we must add them ourselves
+        const finalSuccessUrl = isValidUrl(success_url) ? success_url : DEFAULT_SUCCESS_URL;
+        const finalErrorUrl = isValidUrl(error_url) ? error_url : DEFAULT_ERROR_URL;
+        
+        // Append reference parameter to callback URLs
+        const successUrlWithRef = `${finalSuccessUrl}${finalSuccessUrl.includes('?') ? '&' : '?'}reference=${clientReference}`;
+        const errorUrlWithRef = `${finalErrorUrl}${finalErrorUrl.includes('?') ? '&' : '?'}reference=${clientReference}`;
+        
         // Prepare the request to HexAI Payment Gateway
         // Match the exact format from the HPG API test script
         const paymentData = {
             amount: amountFormatted,
             currency: CURRENCY,
             client_reference: clientReference,
-            success_url: isValidUrl(success_url) ? success_url : DEFAULT_SUCCESS_URL,
-            error_url: isValidUrl(error_url) ? error_url : DEFAULT_ERROR_URL
+            success_url: successUrlWithRef,
+            error_url: errorUrlWithRef
         };
         
         // Add customer info if a valid phone number is provided

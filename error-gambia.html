@@ -94,6 +94,12 @@
             console.log('Timestamp:', new Date().toISOString());
             console.log('================================');
             
+            // Check if we have a reference to look up payment details
+            const reference = urlParams.get('reference') || urlParams.get('client_reference');
+            if (reference) {
+                console.log('Payment reference found:', reference);
+            }
+            
             // Send to backend for logging
             fetch('/api/log-redirect', {
                 method: 'POST',
@@ -102,6 +108,7 @@
                     page: 'error',
                     url: window.location.href,
                     params: allParams,
+                    reference: reference,
                     timestamp: new Date().toISOString()
                 })
             }).catch(e => console.error('Failed to send log:', e));
