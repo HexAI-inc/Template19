@@ -339,23 +339,41 @@ apiRouter.get('/payment/status/:reference', async (req, res) => {
         const data = await response.json();
 
         if (response.ok) {
+            const paymentStatus = data.data?.status;
+            
             // Update local cache
             if (cachedTransaction) {
-                cachedTransaction.status = data.data?.status || cachedTransaction.status;
+                cachedTransaction.status = paymentStatus || cachedTransaction.status;
+                cachedTransaction.verified_at = new Date().toISOString();
                 transactions.set(reference, cachedTransaction);
             }
 
-            return res.json({
-                status: 'success',
-                data: {
-                    ...data.data,
-                    package_info: cachedTransaction ? {
-                        package_type: cachedTransaction.package_type,
-                        package_name: cachedTransaction.package_name,
-                        amount: cachedTransaction.amount
-                    } : null
-                }
-            });
+            // SECURITY: Only return voucher code if payment is COMPLETED
+            // This prevents unauthorized access by just navigating to success URL
+            if (paymentStatus === 'COMPLETED' || paymentStatus === 'SUCCESS' || paymentStatus === 'SUCCEEDED') {
+                return res.json({
+                    status: 'success',
+                    data: {
+                        ...data.data,
+                        package_info: cachedTransaction ? {
+                            package_type: cachedTransaction.package_type,
+                            package_name: cachedTransaction.package_name,
+                            amount: cachedTransaction.amount,
+                            voucher_code: cachedTransaction.voucher_code  // Only sent if verified paid
+                        } : null
+                    }
+                });
+            } else {
+                // Payment not completed - return status without voucher
+                return res.status(402).json({
+                    status: 'error',
+                    error: {
+                        code: 'PAYMENT_NOT_COMPLETED',
+                        message: 'Payment has not been completed yet',
+                        payment_status: paymentStatus
+                    }
+                });
+            }
         } else {
             return res.status(response.status).json(data);
         }
@@ -434,22 +452,21 @@ async function handlePaymentSuccess(transaction) {
     const cachedTransaction = transactions.get(reference);
 
     if (cachedTransaction) {
-        cachedTransaction.status = 'SUCCEEDED';
+        // Use Wave's actual status or set to COMPLETED
+        cachedTransaction.status = transaction.status || 'COMPLETED';
         cachedTransaction.completed_at = new Date().toISOString();
+        cachedTransaction.wave_transaction_id = transaction.id;
         transactions.set(reference, cachedTransaction);
 
         console.log(`[${new Date().toISOString()}] Payment successful:`, {
             reference,
             amount: transaction.amount,
-            package: cachedTransaction.package_name
+            package: cachedTransaction.package_name,
+            voucher: cachedTransaction.voucher_code
         });
 
-        // TODO: Here you would integrate with your voucher system
-        // to generate and deliver the WiFi voucher to the customer
-        // 
-        // Example:
-        // await generateVoucher(cachedTransaction.package_type);
-        // await sendSMS(customer_phone, voucher_code);
+        // Voucher already generated during initiate - no need to generate again
+        // The webhook just confirms payment so we can release the voucher
     }
 }
 

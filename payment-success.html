@@ -144,9 +144,17 @@
                     // Query backend for payment status
                     console.log('Fetching payment status for reference:', reference);
                     const response = await fetch(`/api/payment/status/${reference}`);
+                    
+                    // Handle payment not completed (402)
+                    if (response.status === 402) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error?.message || 'Payment has not been completed. Please complete your Wave payment and try again.');
+                    }
+                    
                     if (!response.ok) {
                         throw new Error('Failed to fetch payment status');
                     }
+                    
                     const result = await response.json();
                     
                     if (result.status === 'success' && result.data) {
