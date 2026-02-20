@@ -236,16 +236,25 @@ const HexAIPayment = {
 
             // Capture MikroTik device info if available
             let deviceInfo = {};
+            
+            // 1. Try to get from sessionStorage (captured during initial redirect)
+            try {
+                const stored = sessionStorage.getItem('mikrotik_device_info');
+                if (stored) deviceInfo = JSON.parse(stored);
+            } catch (e) {}
+
+            // 2. Try to get fresh info from URL or page
             if (typeof MikroTikHelper !== 'undefined') {
-                deviceInfo = MikroTikHelper.getDeviceInfo();
-            } else {
-                // Fallback: try to get from sessionStorage
-                try {
-                    const stored = sessionStorage.getItem('mikrotik_device_info');
-                    if (stored) deviceInfo = JSON.parse(stored);
-                } catch (e) {
-                    console.log('No MikroTik device info available');
+                const freshInfo = MikroTikHelper.getDeviceInfo();
+                // Merge: only take fresh info if we don't already have it
+                // (sessionStorage is usually more reliable once captured)
+                for (const key in freshInfo) {
+                    if (freshInfo[key] && !deviceInfo[key]) {
+                        deviceInfo[key] = freshInfo[key];
+                    }
                 }
+            } else {
+                console.log('No MikroTikHelper available');
             }
 
             sessionStorage.setItem('hexai_payment', JSON.stringify({

@@ -11,14 +11,24 @@ const MikroTikHelper = {
     getDeviceInfo() {
         const params = new URLSearchParams(window.location.search);
         
+        const cleanParam = (name, placeholder) => {
+            const val = params.get(name);
+            // If the parameter is missing OR is a MikroTik placeholder like $(mac)
+            if (!val || (val.includes('$(') && val.includes(')'))) {
+                const pageVal = this.extractFromPage(placeholder);
+                return pageVal;
+            }
+            return val;
+        };
+
         return {
-            mac: params.get('mac') || this.extractFromPage('$(mac)'),
-            ip: params.get('ip') || this.extractFromPage('$(ip)'),
-            username: params.get('username') || '',
-            linkLoginOnly: params.get('link-login-only') || this.extractFromPage('$(link-login-only)'),
-            linkOrig: params.get('link-orig') || params.get('dst') || this.extractFromPage('$(link-orig)'),
+            mac: cleanParam('mac', '$(mac)'),
+            ip: cleanParam('ip', '$(ip)'),
+            username: cleanParam('username', '$(username)'),
+            linkLoginOnly: cleanParam('link-login-only', '$(link-login-only)'),
+            linkOrig: params.get('link-orig') || params.get('dst') || cleanParam('link-orig', '$(link-orig)'),
             sessionId: params.get('session-id') || '',
-            linkLoginUrl: this.extractFromPage('$(link-login-only)'),
+            linkLoginUrl: cleanParam('link-login-only', '$(link-login-only)'),
             // Additional info
             userAgent: navigator.userAgent,
             timestamp: new Date().toISOString()
@@ -30,23 +40,31 @@ const MikroTikHelper = {
      * This works when the page is served by MikroTik hotspot
      */
     extractFromPage(variable) {
-        // Check if we're on a MikroTik hotspot page
-        const bodyHTML = document.body.innerHTML;
+        // Find all hidden inputs or inputs with value matching common patterns
+        const inputs = document.querySelectorAll('input[type="hidden"], input[name], form[action]');
         
-        // Look for the variable pattern in forms or hidden inputs
-        const patterns = [
-            new RegExp(`value="${variable.replace(/[()$]/g, '\\$&')}"`, 'i'),
-            new RegExp(`name="dst"[^>]*value="([^"]+)"`, 'i'),
-            new RegExp(`name="username"[^>]*value="([^"]+)"`, 'i')
-        ];
+        // Helper to check if value is valid (not a MikroTik placeholder)
+        const isValid = (val) => val && !(val.includes('$(') && val.includes(')'));
+
+        // 1. Check if the value itself matched the variable (e.g., value="$(mac)")
+        // but we want the REPLACED value.
+        // If the variable is $(mac) and we find value="00:11:22:33:44:55", that's what we want.
+
+        // This is tricky because we don't know the exact ID/Name MikroTik uses for its variables.
+        // Usually it's name="mac", name="ip", etc.
+        const varName = variable.replace(/[()$]/g, ''); // $(mac) -> mac
         
-        for (const pattern of patterns) {
-            const match = bodyHTML.match(pattern);
-            if (match && match[1]) {
-                return match[1];
-            }
+        const targetInput = document.querySelector(`input[name="${varName}"], input[id="${varName}"]`);
+        if (targetInput && isValid(targetInput.value)) {
+            return targetInput.value;
         }
-        
+
+        // Special handling for dst/link-orig
+        if (varName === 'link-orig' || varName === 'dst') {
+            const dst = document.querySelector('input[name="dst"]');
+            if (dst && isValid(dst.value)) return dst.value;
+        }
+
         return '';
     },
 

@@ -36,6 +36,8 @@
                 $(endif)
                 <form autocomplete="off" name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
                     <input type="hidden" name="dst" value="$(link-orig)" />
+                    <input type="hidden" name="mac" value="$(mac)" />
+                    <input type="hidden" name="ip" value="$(ip)" />
                     <input type="hidden" name="popup" value="true" />
                     <label>
                         <input name="username" id="username" type="text" value="$(username)" onchange="" oninput="setPass()" placeholder="Voucher Code" class="octalink-input" />
@@ -258,6 +260,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             switchMode('voucher');
             setInterval(nextOctalinkSlide, 4000);
+            
+            // Capture MikroTik device info for payment system
+            if (typeof MikroTikHelper !== 'undefined') {
+                const deviceInfo = MikroTikHelper.getDeviceInfo();
+                console.log('MikroTik Device Info Captured:', deviceInfo);
+                sessionStorage.setItem('mikrotik_device_info', JSON.stringify(deviceInfo));
+            }
         });
     </script>
     
